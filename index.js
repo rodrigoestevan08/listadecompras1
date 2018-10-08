@@ -18,7 +18,22 @@ app.get('/produtos', (req, res) => {
   })
 });
 
-// app.post();
+app.post('/produto/novo', (req, res) => {
+  if(!req.body.nome || !req.body.quantidade){
+    return res.status(400).send({erro: 'Dados obrigatórios ausentes.'})
+  }
+  let novoProduto = {
+    nome: req.body.nome,
+    quantidade: req.body.quantidade,
+    marca: req.body.marca || ""
+  }
+  req.db.collection('compras').insert(novoProduto, erro => {
+    if(!erro){
+      return res.status(201).send({mensagem: "Produto cadastrado com sucesso."});
+    }
+    return res.status(500).send({erro: erro});
+  });
+});
 
 // app.delete();
 

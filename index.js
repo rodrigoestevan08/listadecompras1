@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(mongoDB("mongodb://localhost/lista"));
+app.use(mongoDB("mongodb://rodrigo:r83789159@ds115768.mlab.com:15768/lastadecompras1"));
 
 app.get('/produtos', (req, res) => {
   req.db.collection('compras').find().toArray((erro, dados) => {
@@ -45,7 +45,7 @@ app.delete('/produto/:IdDoProduto', (req, res) => {
   })
 });
 
-app.listen(5000, erro => {
+app.listen(process.env.PORT || 5000, erro => {
   if(!erro){
     return console.log("Aplicação de backend iniciada");
   }

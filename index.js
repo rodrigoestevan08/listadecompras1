@@ -13,7 +13,7 @@ app.use(mongoDB("mongodb://localhost/lista"));
 app.get('/produtos', (req, res) => {
   req.db.collection('compras').find().toArray((erro, dados) => {
     if(!erro){
-      res.send({produtos: dados});
+      return res.send({produtos: dados});
     }
     return res.status(500).send({erro: erro});
   })

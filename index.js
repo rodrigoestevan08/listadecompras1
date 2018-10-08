@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoDB = require('express-mongo-db');
 const cors = require('cors');
+const ObjectID = require('mongodb').ObjectID;
 
 const app = express();
 
@@ -35,7 +36,14 @@ app.post('/produto/novo', (req, res) => {
   });
 });
 
-// app.delete();
+app.delete('/produto/:IdDoProduto', (req, res) => {
+  req.db.collection('compras').remove({_id: ObjectID(req.params.IdDoProduto)}, erro => {
+    if(!erro){
+      return res.status(202).send({mensagem: "Produto removido com sucesso"});
+    }
+    return res.status(500).send({erro: erro});
+  })
+});
 
 app.listen(5000, erro => {
   if(!erro){
